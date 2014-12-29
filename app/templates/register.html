@@ -1,0 +1,58 @@
+<div class="col-lg-7 col-md-offset-2">
+  <div class="well bs-component">
+    <form class="form-horizontal">
+      <fieldset>
+        <legend>Sign up</legend>
+        <div class="form-group">
+          <label for="inputUsername" class="col-lg-2 control-label">Username</label>
+          <div class="col-lg-10">
+            <input type="text" ng-model="user.username" class="form-control" id="inputUsername" placeholder="Username">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputPassword" class="col-lg-2 control-label">Password</label>
+          <div class="col-lg-10">
+            <input type="password" ng-model="user.password" class="form-control" id="inputPassword" placeholder="Password">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputConfirmPassword" class="col-lg-2 control-label">Confirm-Password</label>
+          <div class="col-lg-10">
+            <input type="password" ng-model="user.confirmPassword" class="form-control" id="inputConfirmPassword" placeholder="Confirm Password">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputName" class="col-lg-2 control-label">Name</label>
+          <div class="col-lg-10">
+            <input type="text" ng-model="user.name" class="form-control" id="inputName" placeholder="Name">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+          <div class="col-lg-10">
+            <input type="text" ng-model="user.email" class="form-control" id="inputEmail" placeholder="Email">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputPhone" class="col-lg-2 control-label">Phone</label>
+          <div class="col-lg-10">
+            <input type="text" ng-model="user.phone" class="form-control" id="inputPhone" placeholder="Phone">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="select" class="col-lg-2 control-label">Town</label>
+          <div class="col-lg-10">
+            <select class="form-control" ng-model="user.town" id="select">
+              <option ng-repeat="town in towns" value="{{town.id}}">{{town.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-lg-10 col-lg-offset-2">
+            <button ng-click="cancel()" class="btn btn-default">Cancel</button>
+            <button ng-click="register(user)" type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+</div>

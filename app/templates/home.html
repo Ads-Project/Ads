@@ -1,0 +1,49 @@
+<div class="row">
+
+    <div class="col-md-3">
+        <div categories-nav>
+            
+        </div>
+        <div towns-nav>
+            
+        </div>
+    </div>
+
+    <div class="col-md-9">
+
+        <div ng-repeat="ad in data.ads" class="thumbnail row">
+            <div class="col-md-3 image-container">
+                <img class="img-responsive" ng-src="{{ad.imageDataUrl | adImage}}" src="" alt="">
+            </div>
+            <div class="caption-full col-md-9">
+                <h4 class="pull-right">{{ad.date | date: "dd-MMM-yyyy"}}</h4>
+                <h4>
+                    <a href="#/">{{ad.title}}</a>
+                </h4>
+                <p>
+                    {{ad.text}}
+                </p>
+                <p class="user-info">
+                    <strong>Name: </strong>
+                    <span class="well well-sm">
+                        {{ad.ownerName}}
+                    </span>
+                </p>
+                <p class="user-info">
+                    <strong>Email: </strong>
+                    <span class="well well-sm">
+                        {{ad.ownerEmail}}
+                    </span>
+                </p>
+                <p class="user-info">
+                    <strong>Phone: </strong>
+                    <span class="well well-sm">
+                        {{ad.ownerPhone}}
+                    </span>
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+</div>
