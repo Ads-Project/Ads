@@ -1,4 +1,4 @@
-app.directive('category', ['$rootScope', function ($rootScope) {
+app.directive('town', ['$rootScope', function ($rootScope) {
 	return {
 		restrict: 'A',
 		link: function (scope, iElement, iAttrs) {
@@ -6,9 +6,9 @@ app.directive('category', ['$rootScope', function ($rootScope) {
 				$(this).parent().children().removeClass('active');
 				$(this).addClass('active');
 
-				var categoryId = iAttrs.categoryId;
-				$rootScope.$broadcast('categorySelectorClicked', categoryId);
-			})
+				var townId = iAttrs.townId;
+				$rootScope.$broadcast('townSelectorClicked', townId);
+			});
 		}
 	};
 }])
