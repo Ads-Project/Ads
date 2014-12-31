@@ -5,6 +5,8 @@ app.controller('Ads-Controller', ['$scope', 'AdsData', '$rootScope', function($s
 	var data = AdsData.getAll();
 	var adFilters = {};
 
+	$scope.data = data;
+	
 	$scope.$on("categorySelectorClicked", function(event, selectedCategoryId) {
 		if (selectedCategoryId) {
 			adFilters.categoryId = selectedCategoryId;
@@ -45,6 +47,5 @@ app.controller('Ads-Controller', ['$scope', 'AdsData', '$rootScope', function($s
 			});
 	}
 
-	$scope.data = data;
 
 }]);

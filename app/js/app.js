@@ -1,7 +1,7 @@
 'use strict';
 
 var app = angular
-	.module('app', ['ngRoute', 'ngResource'])
+	.module('app', ['ngRoute', 'ngResource', 'ngAnimate'])
 	.config(function($routeProvider) {
 		$routeProvider
             .when('/', {
@@ -11,6 +11,10 @@ var app = angular
             .when('/register', {
             	templateUrl: 'templates/register.html',
             	controller: 'RegisterController'
+            })
+            .when('/login', {
+                templateUrl: 'templates/login.html',
+                controller: 'LoginController'
             })
 
             
