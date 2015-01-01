@@ -2,16 +2,27 @@
 
 app.controller('Ads-Controller', ['$scope', 'AdsData', '$rootScope', function($scope, AdsData, $rootScope) {
 
-	var data = AdsData.getAll();
 	var adFilters = {};
 
-	$scope.data = data;
-	
+	$scope.data = AdsData.getAll();
+	$scope.pages = [];
+	$scope.currentPage = 1;
+
+	// Fill pages array
+	$scope.data
+		.$promise
+		.then(function() {
+			for (var i = 1; i <= $scope.data.numPages; i++) {
+				$scope.pages.push(i);
+			};
+		});
+
 	$scope.$on("categorySelectorClicked", function(event, selectedCategoryId) {
+
+		// Check filter for all categories
 		if (selectedCategoryId) {
 			adFilters.categoryId = selectedCategoryId;
-		} else{
-			// Filter for all categories (remove filter)
+		} else {
 			delete adFilters.categoryId;
 		}
 		reloadAds();
@@ -19,27 +30,44 @@ app.controller('Ads-Controller', ['$scope', 'AdsData', '$rootScope', function($s
 
 	$scope.$on("townSelectorClicked", function(event, selectedTownId) {
 
+		// Check filter for all towns
 		if (selectedTownId) {
 			adFilters.townId = selectedTownId;
-		} else{
-			// Filter for all towns (remove filter)
+		} else {
 			delete adFilters.townId;
 		}
 		reloadAds();
 	});
 
+	$scope.$on('newPageClicked', function(event, selectedPageNum) {
+
+		adFilters.pageNum = selectedPageNum;
+		$scope.currentPage = selectedPageNum;
+		reloadAds();
+	});
+
+
 	function reloadAds() {
 		AdsData.getAllByFilter(adFilters)
 			.$promise
 			.then(function(respData) {
-				data = respData;
+				$scope.data = respData;
 
-				if (!data.ads.length) {
+				if (!$scope.data.ads.length) {
 					$scope.noResults = true;
 				} else {
 					$scope.noResults = false;
 				}
-				$scope.data = data;
+
+				$scope.data
+					.$promise
+					.then(function() {
+						$scope.pages = [];
+						for (var i = 1; i <= $scope.data.numPages; i++) {
+							$scope.pages.push(i);
+						};
+					});
+
 
 			}, function(err) {
 				console.log(err);

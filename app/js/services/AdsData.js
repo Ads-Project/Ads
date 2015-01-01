@@ -18,27 +18,46 @@ app.factory('AdsData', ['$http', '$resource', function($http, $resource) {
 	}
 
 	function getFiltredAds(adFilters) {
-		if (adFilters.categoryId || adFilters.townId) {
+		
+		// Generate url filters
+		if (adFilters.categoryId || adFilters.townId || adFilters.pageNum) {
 			var filterUrl = 'http://softuni-ads.azurewebsites.net/api/ads/?';
 
 			if (adFilters.categoryId) {
 				filterUrl += 'categoryid=' + adFilters.categoryId;
 
 				if (adFilters.townId) {
-					filterUrl += '&townId=' + adFilters.townId;
-					return $resource(filterUrl).get();
+					filterUrl += '&townid=' + adFilters.townId;
 
-				} else {
-					return $resource(filterUrl).get();
+					if (adFilters.numPages) {
+						filterUrl += '&startPage=' + adFilters.pageNum;
+						return $resource(filterUrl).get();
+					}
 
+				} else if (adFilters.numPages) {
+					filterUrl += '&startPage=' + adFilters.pageNum;
+					$resource(filterUrl).get();
 				}
-			} else {
-				filterUrl += 'townid=' + adFilters.townId;
+
 				return $resource(filterUrl).get();
 
+			} else if (adFilters.townId) {
+				filterUrl += 'townid=' + adFilters.townId;
+
+				if (adFilters.numPages) {
+					filterUrl += '&startPage=' + adFilters.pageNum;
+					return $resource(filterUrl).get();
+				}
+
+				return $resource(filterUrl).get();
+
+			} else {	
+				filterUrl += 'startPage=' + adFilters.pageNum;
+				
+				return $resource(filterUrl).get();
 			}
-		}
-		else{
+
+		} else {
 			return getAllAds();
 		}
 	}

@@ -8,11 +8,27 @@
             <input type="text" class="form-control" ng-model="query" placeholder="Search...">
         </div>
 
-        <div categories-nav>
-            
+        <div ng-controller="SideBarController">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Categories</h3>
+                </div>
+                <div class="list-group">
+                    <li category class="list-group-item active aside-filter">All</li>
+                    <li ng-repeat="category in categories" category data-category-id="{{category.id}}" class="list-group-item aside-filter">{{category.name}}</li>
+                </div>
+            </div>
         </div>
-        <div towns-nav>
-            
+        <div ng-controller="SideBarController" class="side-towns">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Towns</h3>
+                </div>
+                <div class="list-group">
+                    <li town class="list-group-item active aside-filter">All</li>
+                    <li ng-repeat="town in towns" town data-town-id="{{town.id}}" class="list-group-item aside-filter">{{town.name}}</a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -52,15 +68,17 @@
                 </p>
             </div>
         </div>
-        <ul class="pagination">
-                <li class="disabled"><a href="#">«</a></li>
-                <li class="active"><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li><a href="#">»</a></li>
-              </ul>
+        <ul ng-hide="noResults" class="pagination">
+            <li ng-class="{disabled: currentPage == 1}">
+                <a href ng-click="prevPage()">« Prev</a>
+            </li>
+            <li ng-repeat="n in pages" ng-class="{active: n == currentPage}" ng-click="setPage()">
+                <a href page data-page-num="{{n}}">{{n}}</a>
+            </li>
+            <li ng-class="{disabled: currentPage == data.numPages}">
+                <a href ng-click="nextPage()">Next »</a>
+            </li>
+        </ul>
 
     </div>
 
