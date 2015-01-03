@@ -1,23 +1,20 @@
-app.controller('RegisterController', ['Auth', 'categoriesAndTownsData', '$scope', '$location', 
-	function(Auth, categoriesAndTownsData, $scope,  $location){
-	
-	$scope.towns = categoriesAndTownsData.getAllTowns();
+app.controller('RegisterController', ['Auth', 'categoriesAndTownsData', '$scope', '$location', '$rootScope', 'AUTH_EVENTS',
+	function(Auth, categoriesAndTownsData, $scope, $location, $rootScope, AUTH_EVENTS) {
 
-	$scope.register = function (user){
-		Auth.registerUser(user)
-			.$promise
-			.then(function (data){
-				$location.path('/');	
-			}, function (error){
-				console.log(error);
-			})
+		$scope.towns = categoriesAndTownsData.getAllTowns();
+
+		$scope.register = function(user) {
+			Auth.register(user)
+			.then(function (resp){
+				$scope.setCurrentUser( Auth.getUserInfo() );
+			});
+		}
+
+		$scope.cancel = function() {
+			$location.path('/');
+		}
+
+
+
 	}
-
-	$scope.cancel = function (){
-		$location.path('/');
-	}
-
-
-
-
-}])
+])

@@ -1,34 +1,89 @@
 'use strict';
 
-app.factory('Auth', ['$http', '$resource', function($http, $resource) {
-	
-	var loginResource = $resource(
-		'http://softuni-ads.azurewebsites.net/api/user/login'
-	);
+app.factory('Auth', ['$http', '$resource', '$location', '$rootScope', '$q', '$window', 'AUTH_EVENTS',
+	function($http, $resource, $location, $rootScope, $q, $window, AUTH_EVENTS) {
 
-	var registerResource = $resource(
-		'http://softuni-ads.azurewebsites.net/api/user/register'
-	);
+		var userInfo,
+			loginResource,
+			registerResource;
 
-	function IsLoggedIn (){
-		if (sessionStorage['username']) {
-			return true;
-		} else{
-			return false;
+		loginResource = $resource(
+			'http://softuni-ads.azurewebsites.net/api/user/login'
+		);
+
+		registerResource = $resource(
+			'http://softuni-ads.azurewebsites.net/api/user/register'
+		);
+
+		init();
+
+		function registerUser(user) {
+			var deferred = $q.defer();
+
+			registerResource
+				.save(user)
+				.$promise
+				.then(function(resp) {
+					userInfo = {
+						accessToken: resp.access_token,
+						userName: resp.username,
+						role: resp.isAdmin ? 'admin' : 'editor'
+					};
+					$window.sessionStorage["userInfo"] = JSON.stringify(userInfo);
+					deferred.resolve(userInfo);
+
+					$rootScope.$broadcast(AUTH_EVENTS.registrationSuccess);
+					$location.path('/');
+				})
+				.catch(function(err) {
+					$rootScope.$broadcast(AUTH_EVENTS.registrationFailed, err);
+					deferred.reject(err);
+				})
+
+			return deferred.promise;
 		}
-	}
 
-	function registerUser (user){
-		return registerResource.save(user);
-	}
+		function login(credentials) {
+			var deferred = $q.defer();
 
-	function loginUser (user){
-		return loginResource.save(user);
-	}
+			loginResource
+				.save(credentials)
+				.$promise
+				.then(function(resp) {
+					userInfo = {
+						accessToken: resp.access_token,
+						userName: resp.username,
+						role: resp.isAdmin ? 'admin' : 'editor'
+					};
+					$window.sessionStorage["userInfo"] = JSON.stringify(userInfo);
+					deferred.resolve(userInfo);
 
-	return {
-		IsLoggedIn: IsLoggedIn,
-		registerUser: registerUser,
-		loginUser: loginUser
-	};
-}])
+					$rootScope.$broadcast(AUTH_EVENTS.loginSuccess, resp);
+					$location.path('/');
+				})
+				.catch(function(err) {
+					$rootScope.$broadcast(AUTH_EVENTS.loginFailed, err);
+					deferred.reject(err);
+				});
+
+			return deferred.promise;
+		};
+
+		function getUserInfo() {
+			return userInfo;
+		}
+
+		function init() {
+			if ($window.sessionStorage["userInfo"]) {
+				userInfo = JSON.parse($window.sessionStorage["userInfo"]);
+			}
+		}
+
+
+		return {
+			login: login,
+			register: registerUser,
+			getUserInfo: getUserInfo
+		};
+	}
+])
