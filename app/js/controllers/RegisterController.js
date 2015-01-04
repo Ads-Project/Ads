@@ -1,12 +1,13 @@
-app.controller('RegisterController', ['Auth', 'categoriesAndTownsData', '$scope', '$location', '$rootScope', 'AUTH_EVENTS',
-	function(Auth, categoriesAndTownsData, $scope, $location, $rootScope, AUTH_EVENTS) {
+app.controller('RegisterController', ['Auth', 'categoriesAndTownsData', '$scope', '$location', '$http',
+	function(Auth, categoriesAndTownsData, $scope, $location, $http) {
 
 		$scope.towns = categoriesAndTownsData.getAllTowns();
 
 		$scope.register = function(user) {
 			Auth.register(user)
 			.then(function (resp){
-				$scope.setCurrentUser( Auth.getUserInfo() );
+				$scope.setCurrentUser( resp );
+				$http.defaults.headers.common['Authorization'] = resp.accessToken;
 			});
 		}
 

@@ -2,10 +2,17 @@
 
 app.factory('AdsData', ['$http', '$resource', function($http, $resource) {
 
-	//$http.defaults.headers.common['Authorization'] = 'Bearer drgYkEoKSxEYzY1CCuL03c92cRKnW0ejhKu1gxvFGdOrtC1_gxImYf_9btlcnJFJ8He66BJsdFFrREWWc5JdkLaZKAoeAL4Lz5CzAIX-sTh62a8pcdqDhGG9L-iVucpMsSsaorl8aaOeEdXk0KQJS8w-CSJdm6qb3oTI6JTWuU216kSMexGS6vhadVyHilXcN_BflxpNKuUPfmRY_xelXhRA38kdOGlcvVkblbQ1fa08j4joIy9Eot3U6IMXAo61ipVV5LjC3jigfi8EkoZJN5ZIAS3ZNgazWP0dKynyLFu3-szapIfmnvs_VMLM-4OUjyADnZVq_bLOIlK1DL83jKkeMLqJeIKaDD7qrOkzQ--dk9K3ObA6G2XFfxb6PDBlD_rj19E2r5-U_0i21xSodARZ_deXOg00KLWcdl-9j-Kio147QhUaZPKp9g7qi8ZwOslszsJA7uoRgTJ_-YifeJx32uDoBML6CfvG8BX9CwU';
-
 	var resource = $resource(
 		'http://softuni-ads.azurewebsites.net/api/ads/:id', {
+			id: '@id'
+		}, {
+			update: {
+				method: 'PUT'
+			}
+		});
+
+	var userResource = $resource(
+		'http://softuni-ads.azurewebsites.net/api/user/ads/:id', {
 			id: '@id'
 		}, {
 			update: {
@@ -17,70 +24,118 @@ app.factory('AdsData', ['$http', '$resource', function($http, $resource) {
 		return resource.get();
 	}
 
+	function getUserAds() {
+		return userResource.get();
+	}
+
 	function getFiltredAds(adFilters) {
-		
+
 		// Generate url filters
-		if (adFilters.categoryId || adFilters.townId || adFilters.pageNum) {
-			var filterUrl = 'http://softuni-ads.azurewebsites.net/api/ads/?';
+		var filterUrl;
+		if (adFilters.role === 'guest') {
+			filterUrl = 'http://softuni-ads.azurewebsites.net/api/ads/?';
 
-			if (adFilters.categoryId) {
-				filterUrl += 'categoryid=' + adFilters.categoryId;
+			if (adFilters.categoryId || adFilters.townId || adFilters.pageNum) {
 
-				if (adFilters.townId) {
-					filterUrl += '&townid=' + adFilters.townId;
+				if (adFilters.categoryId) {
+					filterUrl += 'categoryid=' + adFilters.categoryId;
 
-					if (adFilters.numPages) {
+					if (adFilters.townId) {
+						filterUrl += '&townid=' + adFilters.townId;
+
+						if (adFilters.pageNum) {
+							filterUrl += '&startPage=' + adFilters.pageNum;
+							return $resource(filterUrl).get();
+						}
+
+					} else if (adFilters.pageNum) {
+						filterUrl += '&startPage=' + adFilters.pageNum;
+						$resource(filterUrl).get();
+					}
+
+					return $resource(filterUrl).get();
+
+				} else if (adFilters.townId) {
+					filterUrl += 'townid=' + adFilters.townId;
+
+					if (adFilters.pageNum) {
 						filterUrl += '&startPage=' + adFilters.pageNum;
 						return $resource(filterUrl).get();
 					}
 
-				} else if (adFilters.numPages) {
-					filterUrl += '&startPage=' + adFilters.pageNum;
-					$resource(filterUrl).get();
-				}
+					return $resource(filterUrl).get();
 
-				return $resource(filterUrl).get();
+				} else {
+					filterUrl += 'startPage=' + adFilters.pageNum;
 
-			} else if (adFilters.townId) {
-				filterUrl += 'townid=' + adFilters.townId;
-
-				if (adFilters.numPages) {
-					filterUrl += '&startPage=' + adFilters.pageNum;
 					return $resource(filterUrl).get();
 				}
 
-				return $resource(filterUrl).get();
-
-			} else {	
-				filterUrl += 'startPage=' + adFilters.pageNum;
-				
-				return $resource(filterUrl).get();
+			} else {
+				return getAllAds();
 			}
-
 		} else {
-			return getAllAds();
+			filterUrl = 'http://softuni-ads.azurewebsites.net/api/user/ads/?'
+
+			if (adFilters.pageNum) {
+				filterUrl += '&startPage=' + adFilters.pageNum;
+				return $resource(filterUrl).get();
+			} else {
+				return getUserAds();
+			}
 		}
+
 	}
 
 	function createNewAd(ad) {
-		return resource.save(ad);
+		return userResource.save(ad);
 	}
 
 	function getAdById(id) {
-		return resource.get({
+		return userResource.get({
 			id: id
 		});
 	}
 
 
 	function editAd(id, ad) {
-		return resource.update({
+		return userResource.update({
 			id: id
 		}, ad);
 	}
 
 	function deleteAd(id) {
-		return resource.delete({
+		return userResource.delete({
+			id: id
+		});
+	}
+
+	function deactivateAd(id) {
+		var deactivateResource = $resource(
+			'http://softuni-ads.azurewebsites.net/api/user/ads/deactivate/:id', {
+				id: '@id'
+			}, {
+				update: {
+					method: 'PUT'
+				}
+			});
+
+		return deactivateResource.update({
+			id: id
+		});
+	}
+
+	function publishAgainAd(id) {
+		var publishAgainResource = $resource(
+			'http://softuni-ads.azurewebsites.net/api/user/ads/publishagain/:id', {
+				id: '@id'
+			}, {
+				update: {
+					method: 'PUT'
+				}
+			});
+
+		return publishAgainResource.update({
 			id: id
 		});
 	}
@@ -91,6 +146,8 @@ app.factory('AdsData', ['$http', '$resource', function($http, $resource) {
 		getById: getAdById,
 		edit: editAd,
 		delete: deleteAd,
+		deactivate: deactivateAd,
+		publishAgain: publishAgainAd,
 		getAllByFilter: getFiltredAds
 	}
 

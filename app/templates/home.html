@@ -36,35 +36,35 @@
     <div class="alert alert-warning" ng-show="noResults">
       <h2>No Results !</h2>
     </div>
-    <div ng-repeat="ad in data.ads | filter: query" class="thumbnail row ad-animation">
+    <div ng-repeat="ad in data.ads | filter: query" class="thumbnail ad-container row ad-animation">
       <div class="col-md-3 image-container">
         <img class="img-responsive" ng-src="{{ad.imageDataUrl | adImage}}" src="" alt="">
       </div>
       <div class="caption-full col-md-9">
         <h4 class="pull-right">{{ad.date | date: "dd-MMM-yyyy"}}</h4>
         <h4>
-                    <a href="#/">{{ad.title}}</a>
-                </h4>
+          <a href="#/">{{ad.title}}</a>
+        </h4>
         <p>
           {{ad.text}}
         </p>
         <p class="user-info">
           <strong>Name: </strong>
           <span class="well well-sm">
-                        {{ad.ownerName}}
-                    </span>
+            {{ad.ownerName}}
+          </span>
         </p>
         <p class="user-info">
           <strong>Email: </strong>
           <span class="well well-sm">
-                        {{ad.ownerEmail}}
-                    </span>
+            {{ad.ownerEmail}}
+          </span>
         </p>
-        <p class="user-info">
+        <p ng-if="ad.ownerPhone" class="user-info">
           <strong>Phone: </strong>
           <span class="well well-sm">
-                        {{ad.ownerPhone}}
-                    </span>
+            {{ad.ownerPhone}}
+          </span>
         </p>
       </div>
     </div>

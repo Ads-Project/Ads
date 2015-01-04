@@ -36,6 +36,7 @@ footer {
 }
 .image-container {
     margin-top: 10px;
+    margin-bottom: 10px;
 }
 li.list-group-item:hover {
     cursor: pointer;
@@ -54,6 +55,21 @@ li.list-group-item:hover {
 .toast {
     margin-bottom: 5px !important;
 }
+.status{
+    margin-top: -40px;
+}
+.status>span{
+    white-space: normal !important;
+}
+.activities-container{
+    margin-left: 30px;
+}
+.ad-container{
+    box-shadow: 5px 6px 11px #888888;
+    border: 1px solid lightsteelblue;
+}
+
+
 /* Animations */
 
 .view-slide-in.ng-enter {

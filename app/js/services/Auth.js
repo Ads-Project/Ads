@@ -25,7 +25,7 @@ app.factory('Auth', ['$http', '$resource', '$location', '$rootScope', '$q', '$wi
 				.$promise
 				.then(function(resp) {
 					userInfo = {
-						accessToken: resp.access_token,
+						accessToken: resp.token_type + ' ' + resp.access_token,
 						userName: resp.username,
 						role: resp.isAdmin ? 'admin' : 'editor'
 					};
@@ -51,7 +51,7 @@ app.factory('Auth', ['$http', '$resource', '$location', '$rootScope', '$q', '$wi
 				.$promise
 				.then(function(resp) {
 					userInfo = {
-						accessToken: resp.access_token,
+						accessToken: resp.token_type + ' ' + resp.access_token,
 						userName: resp.username,
 						role: resp.isAdmin ? 'admin' : 'editor'
 					};
@@ -76,6 +76,7 @@ app.factory('Auth', ['$http', '$resource', '$location', '$rootScope', '$q', '$wi
 		function init() {
 			if ($window.sessionStorage["userInfo"]) {
 				userInfo = JSON.parse($window.sessionStorage["userInfo"]);
+				$http.defaults.headers.common['Authorization'] = userInfo.accessToken;
 			}
 		}
 

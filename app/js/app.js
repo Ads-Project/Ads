@@ -1,7 +1,7 @@
 'use strict';
 
 var app = angular
-    .module('app', ['ngRoute', 'ngResource', 'ngAnimate', 'ngSanitize', 'angular-loading-bar', 'toaster', 'duScroll'])
+    .module('app', ['ngRoute', 'ngResource', 'ngAnimate', 'ngSanitize', 'angular-loading-bar', 'toaster', 'duScroll', 'ui.bootstrap'])
     .constant('AUTH_EVENTS', {
         loginSuccess: 'auth-login-success',
         loginFailed: 'auth-login-failed',
@@ -34,6 +34,7 @@ var app = angular
             })
             .when('/myAds', {
                 templateUrl: 'templates/myAds.html',
+                controller: 'UserAdsController',
                 resolve: {
                     auth: ["$q", "Auth", function($q, Auth) {
                         var userInfo = Auth.getUserInfo();
