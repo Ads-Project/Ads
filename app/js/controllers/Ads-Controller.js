@@ -28,6 +28,10 @@ app.controller('Ads-Controller', ['$scope', 'AdsData', 'toaster',
 			} else {
 				delete adFilters.categoryId;
 			}
+			
+			// Reset Page
+			delete adFilters.pageNum;
+			$scope.currentPage = 1;
 			reloadAds();
 		});
 
@@ -39,6 +43,10 @@ app.controller('Ads-Controller', ['$scope', 'AdsData', 'toaster',
 			} else {
 				delete adFilters.townId;
 			}
+
+			// Reset Page
+			delete adFilters.pageNum;
+			$scope.currentPage = 1;
 			reloadAds();
 		});
 

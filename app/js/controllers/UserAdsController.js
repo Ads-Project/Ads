@@ -36,7 +36,8 @@ app.controller('UserAdsController', ['$scope', 'AdsData', 'toaster', '$modal', '
 				toaster.pop('error', 'Error!', err.data.message);
 			});
 
-		$scope.$on("categorySelectorClicked", function(event, selectedCategoryId) {
+
+		/*$scope.$on("categorySelectorClicked", function(event, selectedCategoryId) {
 
 			// Check filter for all categories
 			if (selectedCategoryId) {
@@ -56,12 +57,16 @@ app.controller('UserAdsController', ['$scope', 'AdsData', 'toaster', '$modal', '
 				delete adFilters.townId;
 			}
 			reloadAds();
-		});
+		});*/
 
 		$scope.$on('newPageClicked', function(event, selectedPageNum) {
 
-			adFilters.pageNum = selectedPageNum;
-			$scope.currentPage = selectedPageNum;
+			if (selectedPageNum) {
+				adFilters.pageNum = selectedPageNum;
+				$scope.currentPage = selectedPageNum;
+			} else {
+				delete adFilters.pageNum;
+			}
 			reloadAds();
 		});
 
@@ -155,18 +160,18 @@ app.controller('UserAdsController', ['$scope', 'AdsData', 'toaster', '$modal', '
 	}
 ])
 
-app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, items) {
+app.controller('ModalInstanceCtrl', function($scope, $modalInstance, items) {
 
-  $scope.items = items;
-  $scope.selected = {
-    item: $scope.items[0]
-  };
+	$scope.items = items;
+	$scope.selected = {
+		item: $scope.items[0]
+	};
 
-  $scope.ok = function () {
-    $modalInstance.close($scope.selected.item);
-  };
+	$scope.ok = function() {
+		$modalInstance.close($scope.selected.item);
+	};
 
-  $scope.cancel = function () {
-    $modalInstance.dismiss('cancel');
-  };
+	$scope.cancel = function() {
+		$modalInstance.dismiss('cancel');
+	};
 });
