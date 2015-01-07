@@ -3,8 +3,8 @@ app.controller('NavController', ['$scope', '$window', 'AUTH_EVENTS', '$rootScope
 
 		$scope.logout = function() {
 			delete $window.sessionStorage["userInfo"];
-			$window.location.reload();
 			$location.path('/');
+			$window.location.reload();
 			$rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
 			delete $http.defaults.headers.common['Authorization'];
 		}

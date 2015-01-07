@@ -27,7 +27,7 @@ app.factory('Auth', ['$http', '$resource', '$location', '$rootScope', '$q', '$wi
 					userInfo = {
 						accessToken: resp.token_type + ' ' + resp.access_token,
 						userName: resp.username,
-						role: resp.isAdmin ? 'admin' : 'editor'
+						role: resp.isAdmin ? 'admin' : 'user'
 					};
 					$window.sessionStorage["userInfo"] = JSON.stringify(userInfo);
 					deferred.resolve(userInfo);
@@ -53,7 +53,7 @@ app.factory('Auth', ['$http', '$resource', '$location', '$rootScope', '$q', '$wi
 					userInfo = {
 						accessToken: resp.token_type + ' ' + resp.access_token,
 						userName: resp.username,
-						role: resp.isAdmin ? 'admin' : 'editor'
+						role: resp.isAdmin ? 'admin' : 'user'
 					};
 					$window.sessionStorage["userInfo"] = JSON.stringify(userInfo);
 					deferred.resolve(userInfo);

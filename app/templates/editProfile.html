@@ -1,0 +1,77 @@
+<div>
+  <div class="well col-md-5">
+    <form name="editForm" class="form-horizontal">
+      <fieldset>
+        <legend>Edit Profile</legend>
+        <div class="form-group required" ng-class="{'has-error': editForm.inputName.$dirty && editForm.inputName.$invalid, 'has-success': editForm.inputName.$dirty && editForm.inputName.$valid}">
+          <label for="inputName" class="col-lg-2 control-label">Name</label>
+          <div class="col-lg-10">
+            <input type="text" ng-model="user.name" class="form-control" name="inputName" required id="inputName" placeholder="Name">
+          </div>
+        </div>
+        <div class="form-group required" ng-class="{'has-error': editForm.inputEmail.$dirty && editForm.inputEmail.$invalid, 'has-success': editForm.inputEmail.$dirty && editForm.inputEmail.$valid}">
+          <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+          <div class="col-lg-10">
+            <input type="text" ng-model="user.email" class="form-control" required name="inputEmail" id="inputEmail" ng-pattern="/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/i" placeholder="Email">
+          </div>
+        </div>
+        <div class="form-group required" ng-class="{'has-error': editForm.inputPhone.$dirty && editForm.inputPhone.$invalid, 'has-success': editForm.inputPhone.$dirty && editForm.inputPhone.$valid}">
+          <label for="inputPhone" class="col-lg-2 control-label">Phone</label>
+          <div class="col-lg-10">
+            <input type="text" required name="inputPhone" ng-model="user.phoneNumber" class="form-control" id="inputPhone" placeholder="Phone">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputTown" class="col-lg-2 control-label">Town</label>
+          <div class="col-lg-10">
+            <select class="form-control" ng-model="user.townId" name="inputTown" id="inputTown" ng-selected="0" ng-options="town.id as town.name for town in towns">
+
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-lg-10 col-lg-offset-2">
+            <button ng-click="cancel()" class="btn btn-default">Cancel</button>
+            <button ng-click="editProfile(user)" ng-disabled="editForm.$invalid" type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+  <div class="well col-md-offset-1 col-md-6">
+    <form name="changePassword" class="form-horizontal">
+      <fieldset>
+        <legend>Change Password</legend>
+    	
+		<div class="form-group required" ng-class="{'has-error': changePassword.inputOldPassword.$dirty && changePassword.inputOldPassword.$error.required, 'has-success': changePassword.inputOldPassword.$dirty && changePassword.inputOldPassword.$valid, 'has-warning': changePassword.inputOldPassword.$error.minlength || changePassword.inputOldPassword.$error.maxlength}">
+          <label for="inputOldPassword" class="col-lg-3 control-label">Old Password</label>
+          <div class="col-lg-9">
+            <input type="password" ng-model="user.oldPassword" name="inputOldPassword" ng-minlength="2" ng-maxlength="100" required class="form-control" id="inputOldPassword" placeholder="Old Password">
+          </div>
+        </div>
+
+    	<div class="form-group required" ng-class="{'has-error': changePassword.inputPassword.$dirty && changePassword.inputPassword.$error.required, 'has-success': changePassword.inputPassword.$dirty && changePassword.inputPassword.$valid, 'has-warning': changePassword.inputPassword.$error.minlength || changePassword.inputPassword.$error.maxlength}">
+          <label for="inputPassword" class="col-lg-3 control-label">New Password</label>
+          <div class="col-lg-9">
+            <input type="password" ng-model="user.newPassword" name="inputPassword" ng-minlength="2" ng-maxlength="100" required class="form-control" id="inputPassword" placeholder="Password">
+            <span class="help-block">Password must be between 2 and 100 symbols.</span>
+          </div>
+        </div>
+        <div class="form-group required" ng-class="{'has-error': changePassword.inputConfirmPassword.$error.pwmatch && changePassword.inputConfirmPassword.$invalid, 'has-success': changePassword.inputConfirmPassword.$dirty && changePassword.inputConfirmPassword.$valid}">
+          <label for="inputConfirmPassword" class="col-lg-3 control-label">Confirm New Password</label>
+          <div class="col-lg-9">
+            <input type="password" ng-model="user.confirmPassword" required pw-check="inputPassword" class="form-control" id="inputConfirmPassword" name="inputConfirmPassword" placeholder="Confirm Password">
+            <span ng-show="changePassword.inputConfirmPassword.$error.pwmatch" class="help-block">Passwords didn't match.</span>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <div class="col-lg-10 col-lg-offset-3">
+            <button ng-click="cancel()" class="btn btn-default">Cancel</button>
+            <button ng-click="editPassword(user)" ng-disabled="changePassword.$invalid" type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</div>

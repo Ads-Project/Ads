@@ -14,8 +14,11 @@
           <h3 class="panel-title">Status: </h3>
         </div>
         <div class="list-group">
-          <li category class="list-group-item active aside-filter">All</li>
-          <li data-category-id="{{category.id}}" class="list-group-item aside-filter">TODO...</li>
+          <li status class="list-group-item active aside-filter">All</li>
+          <li data-status="Published" class="list-group-item aside-filter">Published</li>
+          <li data-status="WaitingApproval" class="list-group-item aside-filter">Waiting Approval</li>
+          <li data-status="Inactive" class="list-group-item aside-filter">Inactive</li>
+          <li data-status="Rejected" class="list-group-item aside-filter">Rejected</li>
         </div>
       </div>
     </div>
@@ -33,22 +36,22 @@
       <div class="col-md-3 image-container">
         <img class="img-responsive" ng-src="{{ad.imageDataUrl | adImage}}" src="" alt="">
       </div>
-      <div class="caption-full col-md-6">
+      <div class="caption-full" ng-class="{'col-md-6': ad.status !== 'Rejected' , 'col-md-9' : ad.status == 'Rejected' }">
         <h4 class="pull-right">{{ad.date | date: "dd-MMM-yyyy"}}</h4>
         <h4>
             <a href="#/">{{ad.title}}</a>
         </h4>
-        <p>
+        <p class="ad-text">
           {{ad.text}}
         </p>
         <div>
-          <p class="user-info">
+          <p ng-if="ad.categoryName" class="user-info">
             <strong>Category: </strong>
             <span class="well well-sm">
               {{ad.categoryName}}
             </span>
           </p>
-          <p class="user-info">
+          <p ng-if="ad.townName" class="user-info">
             <strong>Town: </strong>
             <span class="well well-sm">
               {{ad.townName}}
@@ -64,7 +67,7 @@
       </div>
 
       <!-- Buttons -->
-      <div class="caption-full col-md-3">
+      <div ng-if=" ad.status !== 'Rejected' " class="caption-full col-md-3">
 
         <div class="activities-container">
           <h4>
@@ -79,7 +82,7 @@
           </div>
 
           <div ng-if=" ad.status == 'Inactive' ">
-            <button type="button" ng-click="open('lg')" class="btn btn-labeled btn-warning">
+            <button type="button" ng-click="open(ad.id)" class="btn btn-labeled btn-warning">
               <span class="btn-label">
                   <i class="glyphicon glyphicon-pencil"></i>
             </span> Edit

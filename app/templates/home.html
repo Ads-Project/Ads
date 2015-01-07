@@ -36,7 +36,7 @@
     <div class="alert alert-warning" ng-show="noResults">
       <h2>No Results !</h2>
     </div>
-    <div ng-repeat="ad in data.ads | filter: query" class="thumbnail ad-container row ad-animation">
+    <div ng-cloak ng-repeat="ad in data.ads | filter: query" class="thumbnail ad-container row ad-animation">
       <div class="col-md-3 image-container">
         <img class="img-responsive" ng-src="{{ad.imageDataUrl | adImage}}" src="" alt="">
       </div>
@@ -45,7 +45,7 @@
         <h4>
           <a href="#/">{{ad.title}}</a>
         </h4>
-        <p>
+        <p class="ad-text">
           {{ad.text}}
         </p>
         <p class="user-info">

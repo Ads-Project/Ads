@@ -1,7 +1,7 @@
 'use strict';
 
 var app = angular
-    .module('app', ['ngRoute', 'ngResource', 'ngAnimate', 'ngSanitize', 'angular-loading-bar', 'toaster', 'duScroll', 'ui.bootstrap'])
+    .module('app', ['ngRoute', 'ngResource', 'ngAnimate', 'ngSanitize', 'angular-loading-bar', 'toaster', 'duScroll', 'ui.bootstrap', 'flow'])
     .constant('AUTH_EVENTS', {
         loginSuccess: 'auth-login-success',
         loginFailed: 'auth-login-failed',
@@ -49,6 +49,41 @@ var app = angular
                     }]
                 }
             })
+            .when('/newAd', {
+                templateUrl: 'templates/addAd.html',
+                controller: 'addNewAdController',
+                resolve: {
+                    auth: ["$q", "Auth", function($q, Auth) {
+                        var userInfo = Auth.getUserInfo();
+
+                        if (userInfo) {
+                            return $q.when(userInfo);
+                        } else {
+                            return $q.reject({
+                                authenticated: false
+                            });
+                        }
+                    }]
+                }
+            })
+            .when('/editProfile', {
+                templateUrl: 'templates/editProfile.html',
+                controller: 'EditProfileController',
+                resolve: {
+                    auth: ["$q", "Auth", function($q, Auth) {
+                        var userInfo = Auth.getUserInfo();
+
+                        if (userInfo) {
+                            return $q.when(userInfo);
+                        } else {
+                            return $q.reject({
+                                authenticated: false
+                            });
+                        }
+                    }]
+                }
+            })
+
 
 
         //.otherwise({redirectTo: '/home'});

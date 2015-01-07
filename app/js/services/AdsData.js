@@ -30,6 +30,8 @@ app.factory('AdsData', ['$http', '$resource', function($http, $resource) {
 
 	function getFiltredAds(adFilters) {
 
+		var res = $resource('http://softuni-ads.azurewebsites.net/api/user/ads/')
+
 		// Generate url filters
 		var filterUrl;
 		if (adFilters.role === 'guest') {
@@ -78,9 +80,19 @@ app.factory('AdsData', ['$http', '$resource', function($http, $resource) {
 			filterUrl = 'http://softuni-ads.azurewebsites.net/api/user/ads/?'
 
 			if (adFilters.pageNum) {
-				filterUrl += '&startPage=' + adFilters.pageNum;
+				filterUrl += 'startPage=' + adFilters.pageNum;
+
+				if (adFilters.status) {
+					filterUrl += '&Status=' + adFilters.status;
+					return $resource(filterUrl).get(); 
+				}
+
 				return $resource(filterUrl).get();
 			} else {
+				if (adFilters.status) {
+					filterUrl += 'Status=' + adFilters.status;
+					return $resource(filterUrl).get();
+				};
 				return getUserAds();
 			}
 		}

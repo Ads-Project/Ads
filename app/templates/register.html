@@ -3,75 +3,36 @@
     <form name="registerForm" class="form-horizontal">
       <fieldset>
         <legend>Sign up</legend>
-        <div class="form-group required"
-              ng-class="{'has-error': registerForm.inputUsername.$dirty && registerForm.inputUsername.$invalid, 'has-success': registerForm.inputUsername.$dirty && registerForm.inputUsername.$valid}">
+        <div class="form-group required" ng-class="{'has-error': registerForm.inputUsername.$dirty && registerForm.inputUsername.$invalid, 'has-success': registerForm.inputUsername.$dirty && registerForm.inputUsername.$valid}">
           <label for="inputUsername" class="col-lg-2 control-label">Username</label>
           <div class="col-lg-10">
-            <input type="text" 
-                ng-model="user.username" 
-                name="inputUsername" 
-                required 
-                class="form-control" 
-                id="inputUsername" 
-                placeholder="Username">
+            <input type="text" ng-model="user.username" name="inputUsername" required class="form-control" id="inputUsername" placeholder="Username">
           </div>
         </div>
-        <div class="form-group required"
-              ng-class="{'has-error': registerForm.inputPassword.$dirty && registerForm.inputPassword.$error.required, 'has-success': registerForm.inputPassword.$dirty && registerForm.inputPassword.$valid, 'has-warning': registerForm.inputPassword.$error.minlength || registerForm.inputPassword.$error.maxlength}">
+        <div class="form-group required" ng-class="{'has-error': registerForm.inputPassword.$dirty && registerForm.inputPassword.$error.required, 'has-success': registerForm.inputPassword.$dirty && registerForm.inputPassword.$valid, 'has-warning': registerForm.inputPassword.$error.minlength || registerForm.inputPassword.$error.maxlength}">
           <label for="inputPassword" class="col-lg-2 control-label">Password</label>
           <div class="col-lg-10">
-            <input type="password" 
-                ng-model="user.password" 
-                name="inputPassword"
-                ng-minlength="2"
-                ng-maxlength="100"
-                required 
-                class="form-control" 
-                id="inputPassword" 
-                placeholder="Password">
+            <input type="password" ng-model="user.password" name="inputPassword" ng-minlength="2" ng-maxlength="100" required class="form-control" id="inputPassword" placeholder="Password">
             <span class="help-block">Password must be between 2 and 100 symbols.</span>
           </div>
         </div>
-        <div class="form-group required"
-              ng-class="{'has-error': registerForm.inputConfirmPassword.$error.pwmatch && registerForm.inputConfirmPassword.$invalid, 'has-success': registerForm.inputConfirmPassword.$dirty && registerForm.inputConfirmPassword.$valid}">
+        <div class="form-group required" ng-class="{'has-error': registerForm.inputConfirmPassword.$error.pwmatch && registerForm.inputConfirmPassword.$invalid, 'has-success': registerForm.inputConfirmPassword.$dirty && registerForm.inputConfirmPassword.$valid}">
           <label for="inputConfirmPassword" class="col-lg-2 control-label">Confirm-Password</label>
           <div class="col-lg-10">
-            <input type="password" 
-                ng-model="user.confirmPassword" 
-                required 
-                pw-check="inputPassword"
-                class="form-control" 
-                id="inputConfirmPassword"
-                name="inputConfirmPassword" 
-                placeholder="Confirm Password">
+            <input type="password" ng-model="user.confirmPassword" required pw-check="inputPassword" class="form-control" id="inputConfirmPassword" name="inputConfirmPassword" placeholder="Confirm Password">
             <span ng-show="registerForm.inputConfirmPassword.$error.pwmatch" class="help-block">Passwords didn't match.</span>
           </div>
         </div>
-        <div class="form-group required"
-              ng-class="{'has-error': registerForm.inputName.$dirty && registerForm.inputName.$invalid, 'has-success': registerForm.inputName.$dirty && registerForm.inputName.$valid}">
+        <div class="form-group required" ng-class="{'has-error': registerForm.inputName.$dirty && registerForm.inputName.$invalid, 'has-success': registerForm.inputName.$dirty && registerForm.inputName.$valid}">
           <label for="inputName" class="col-lg-2 control-label">Name</label>
           <div class="col-lg-10">
-            <input type="text" 
-                ng-model="user.name" 
-                class="form-control" 
-                name="inputName" 
-                required 
-                id="inputName" 
-                placeholder="Name">
+            <input type="text" ng-model="user.name" class="form-control" name="inputName" required id="inputName" placeholder="Name">
           </div>
         </div>
-        <div class="form-group required"
-              ng-class="{'has-error': registerForm.inputEmail.$dirty && registerForm.inputEmail.$invalid, 'has-success': registerForm.inputEmail.$dirty && registerForm.inputEmail.$valid}">
+        <div class="form-group required" ng-class="{'has-error': registerForm.inputEmail.$dirty && registerForm.inputEmail.$invalid, 'has-success': registerForm.inputEmail.$dirty && registerForm.inputEmail.$valid}">
           <label for="inputEmail" class="col-lg-2 control-label">Email</label>
           <div class="col-lg-10">
-            <input type="text" 
-                ng-model="user.email"
-                class="form-control" 
-                required 
-                name="inputEmail" 
-                id="inputEmail" 
-                ng-pattern="/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/i"
-                placeholder="Email">
+            <input type="text" ng-model="user.email" class="form-control" required name="inputEmail" id="inputEmail" ng-pattern="/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/i" placeholder="Email">
           </div>
         </div>
         <div class="form-group">
@@ -83,7 +44,7 @@
         <div class="form-group">
           <label for="select" class="col-lg-2 control-label">Town</label>
           <div class="col-lg-10">
-            <select class="form-control" ng-model="user.town" id="select">
+            <select class="form-control" ng-model="user.townId" id="select">
               <option ng-repeat="town in towns" value="{{town.id}}">{{town.name}}</option>
             </select>
           </div>
@@ -96,4 +57,5 @@
         </div>
       </fieldset>
     </form>
+  </div>
 </div>

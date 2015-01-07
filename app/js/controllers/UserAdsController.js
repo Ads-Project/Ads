@@ -1,13 +1,12 @@
 'use strict';
 
-app.controller('UserAdsController', ['$scope', 'AdsData', 'toaster', '$modal', '$log',
+app.controller('UserAdsController', ['$scope', 'AdsData', 'toaster', '$modal', '$log', '$location',
 
-	function($scope, AdsData, toaster, $modal, $log) {
+	function($scope, AdsData, toaster, $modal, $log, $location) {
 
 		var adFilters = {
 			role: 'user'
 		};
-
 
 		$scope.pages = [];
 		$scope.currentPage = 1;
@@ -37,27 +36,20 @@ app.controller('UserAdsController', ['$scope', 'AdsData', 'toaster', '$modal', '
 			});
 
 
-		/*$scope.$on("categorySelectorClicked", function(event, selectedCategoryId) {
+		$scope.$on("statusSelectorClicked", function(event, status) {
 
 			// Check filter for all categories
-			if (selectedCategoryId) {
-				adFilters.categoryId = selectedCategoryId;
+			if (status) {
+				adFilters.status = status;
 			} else {
-				delete adFilters.categoryId;
+				delete adFilters.status;
 			}
+
+			// Reset Page
+			delete adFilters.pageNum;
+			$scope.currentPage = 1;
 			reloadAds();
 		});
-
-		$scope.$on("townSelectorClicked", function(event, selectedTownId) {
-
-			// Check filter for all towns
-			if (selectedTownId) {
-				adFilters.townId = selectedTownId;
-			} else {
-				delete adFilters.townId;
-			}
-			reloadAds();
-		});*/
 
 		$scope.$on('newPageClicked', function(event, selectedPageNum) {
 
@@ -135,43 +127,34 @@ app.controller('UserAdsController', ['$scope', 'AdsData', 'toaster', '$modal', '
 			/* body... */
 		}
 
-		$scope.items = ['item1', 'item2', 'item3'];
-
-		$scope.open = function(size) {
+		$scope.open = function(adId) {
 
 			var modalInstance = $modal.open({
-				templateUrl: 'templates/modal.html',
-				controller: 'ModalInstanceCtrl',
-				size: size,
+				templateUrl: 'templates/editAdModal.html',
+				size: 'lg',
+				controller: 'EditAdController',
 				resolve: {
-					items: function() {
-						return $scope.items;
+					adId: function() {
+						return adId;
 					}
 				}
 			});
 
-			modalInstance.result.then(function(selectedItem) {
-				$scope.selected = selectedItem;
+
+			modalInstance.result.then(function(ad) {
+				AdsData.edit(ad.id, ad)
+					.$promise
+					.then(function(resp) {
+						toaster.pop('success', 'Success!', resp.message, 2000);
+						reloadAds();
+					}, function(err) {
+						toaster.pop('error', 'Error!', err.data.message, 2000);
+					});
+				console.log(ad);
 			}, function() {
 				$log.info('Modal dismissed at: ' + new Date());
 			});
 		};
 
 	}
-])
-
-app.controller('ModalInstanceCtrl', function($scope, $modalInstance, items) {
-
-	$scope.items = items;
-	$scope.selected = {
-		item: $scope.items[0]
-	};
-
-	$scope.ok = function() {
-		$modalInstance.close($scope.selected.item);
-	};
-
-	$scope.cancel = function() {
-		$modalInstance.dismiss('cancel');
-	};
-});
+]);
