@@ -6,20 +6,31 @@ app.controller('EditAdController', ['$scope', '$modalInstance', 'adId', 'AdsData
 		$scope.categories = categoriesAndTownsData.getAllCategories();
 
 		$scope.fileSelected = function(fileInputField) {
-			delete $scope.ad.imageDataUrl;
+			if ($scope.ad.imageDataURL) {
+				delete $scope.ad.imageDataURL;
+			} else {
+				delete $scope.ad.imageDataUrl;
+			}
 			var file = fileInputField.files[0];
 			if (file.type.match(/image\/.*/)) {
 				var reader = new FileReader();
 				reader.onload = function() {
 					$scope.ad.imageDataURL = reader.result;
 					$scope.ad.changeImage = true;
-					$(".image-box").html("<img width='100%' src='" + reader.result + "'>");
 				};
 				reader.readAsDataURL(file);
 			} else {
 				$(".image-box").html("<p>File type not supported!</p>");
 			}
 		};
+
+		$scope.deleteImage = function() {
+			if ($scope.ad.imageDataURL) {
+				delete $scope.ad.imageDataURL;
+			} else {
+				delete $scope.ad.imageDataUrl;
+			}
+		}
 
 		$scope.edit = function() {
 			$modalInstance.close($scope.ad);

@@ -37,6 +37,15 @@
           </li>
         </ul>
 
+        <ul ng-if="currentUser && currentUser.role == 'admin' " class="nav navbar-nav">
+          <li ng-class="{active: activetab == '/myAds'}">
+            <a href="#/myAds">My ads</a>
+          </li>
+          <li ng-class="{active: activetab == '/newAd'}">
+            <a href="#/newAd">Publish New Ad</a>
+          </li>
+        </ul>
+
         <ul ng-if="!currentUser" class="nav navbar-nav navbar-right">
           <li  ng-class="{active: activetab == '/login'}">
             <a href="#/login">Login</a>
