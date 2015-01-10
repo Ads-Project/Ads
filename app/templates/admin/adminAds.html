@@ -23,6 +23,30 @@
       </div>
     </div>
 
+    <div ng-cloak ng-controller="SideBarController">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">Categories</h3>
+        </div>
+        <div class="list-group">
+          <li category class="list-group-item active aside-filter">All</li>
+          <li ng-repeat="category in categories" category data-category-id="{{category.id}}" class="list-group-item aside-filter">{{category.name}}</li>
+        </div>
+      </div>
+    </div>
+
+    <div ng-cloak ng-controller="SideBarController" class="side-towns">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">Towns</h3>
+        </div>
+        <div class="list-group">
+          <li town class="list-group-item active aside-filter">All</li>
+          <li ng-repeat="town in towns" town data-town-id="{{town.id}}" class="list-group-item aside-filter">{{town.name}}</a>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- Ads container -->
@@ -32,19 +56,44 @@
     </div>
 
     <!-- AD Box -->
-    <div ng-repeat="ad in data.ads | filter: query" class="thumbnail ad-container row ad-animation">
+    <div ng-cloak ng-repeat="ad in data.ads | filter: query" class="thumbnail ad-container row ad-animation">
       <div class="col-md-3 image-container">
         <img class="img-responsive" ng-src="{{ad.imageDataUrl | adImage}}" src="" alt="">
       </div>
-      <div class="caption-full" ng-class="{'col-md-6': ad.status !== 'Rejected' , 'col-md-9' : ad.status == 'Rejected' }">
+      <div class="caption-full col-md-6">
         <h4 class="pull-right">{{ad.date | date: "dd-MMM-yyyy"}}</h4>
         <h4>
             <a href="#/">{{ad.title}}</a>
         </h4>
+
         <p class="ad-text">
           {{ad.text}}
         </p>
         <div>
+          <p ng-if="ad.ownerUsername" class="user-info">
+            <strong>Username: </strong>
+            <span class="well well-sm">
+              {{ad.ownerUsername}}
+            </span>
+          </p>
+          <p ng-if="ad.ownerName" class="user-info">
+            <strong>Name: </strong>
+            <span class="well well-sm">
+              {{ad.ownerName}}
+            </span>
+          </p>
+          <p ng-if="ad.ownerEmail" class="user-info">
+            <strong>Email: </strong>
+            <span class="well well-sm">`
+              {{ad.ownerEmail}}
+            </span>
+          </p>
+          <p ng-if="ad.ownerPhone" class="user-info">
+            <strong>Phone: </strong>
+            <span class="well well-sm">
+              {{ad.ownerPhone}}
+            </span>
+          </p>
           <p ng-if="ad.categoryName" class="user-info">
             <strong>Category: </strong>
             <span class="well well-sm">
@@ -67,39 +116,37 @@
       </div>
 
       <!-- Buttons -->
-      <div ng-if=" ad.status !== 'Rejected' " class="caption-full col-md-3">
+      <div class="caption-full col-md-3">
 
         <div class="activities-container">
           <h4>
             <a href>Activities: </a>
           </h4>
-          <div ng-if=" ad.status == 'Published' || ad.status == 'WaitingApproval' ">
-            <button type="button" ng-click="deactivate(ad.id)" class="btn btn-labeled btn-danger">
+          <div ng-if=" ad.status == 'WaitingApproval' ">
+            <button type="button" ng-click="approve(ad.id)" class="btn btn-labeled btn-success">
               <span class="btn-label">
             <i class="glyphicon glyphicon-off"></i>
-          </span> Deactivate
+          </span> Approve
             </button>
           </div>
 
-          <div ng-if=" ad.status == 'Inactive' ">
-            <button type="button" ng-click="openEditModal(ad.id)" class="btn btn-labeled btn-warning">
-              <span class="btn-label">
-                  <i class="glyphicon glyphicon-pencil"></i>
-            </span> Edit
-            </button>
+          <button ng-if=" ad.status == 'WaitingApproval' " type="button" ng-click="reject(ad.id)" class="btn btn-labeled btn-warning">
+            <span class="btn-label">
+            	<i class="glyphicon glyphicon-thumbs-down"></i>  
+            </span> Reject
+          </button>
 
-            <button type="button" ng-click="publishAgain(ad.id)" class="btn btn-labeled btn-info">
-              <span class="btn-label">
-              <i class="glyphicon glyphicon-refresh"></i>
-              </span> Publish again
-            </button>
+          <button type="button" ng-click="openEditModal(ad.id)" class="btn btn-labeled btn-info">
+            <span class="btn-label">
+              <i class="glyphicon glyphicon-pencil"></i>
+          	</span> Edit
+          </button>
 
-            <button type="button" ng-click="openDeleteModal(ad.id)" class="btn btn-labeled btn-danger">
-              <span class="btn-label">
+          <button type="button" ng-click="openDeleteModal(ad.id)" class="btn btn-labeled btn-danger">
+            <span class="btn-label">
                   <i class="glyphicon glyphicon-trash"></i>
             </span> Delete
-            </button>
-          </div>
+          </button>
         </div>
 
       </div>

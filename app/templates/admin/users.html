@@ -1,0 +1,46 @@
+<div>
+  <div class="well">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Username</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th style="width: 36px;"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="user in data.users">
+          <td>{{user.id}}</td>
+          <td>{{user.username}}</td>
+          <td>{{user.name}}</td>
+          <td>{{user.email}}</td>
+          <td>{{user.phoneNumber}}</td>
+          <td width="60px">
+            <a ng-click="openEditModal(user)" href>
+              <i class="glyphicon glyphicon-pencil"></i>
+            </a>
+            <a ng-click="openDeleteModal(user)" href>
+              <i class="glyphicon glyphicon-remove"></i>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pagination">
+    <ul ng-hide="noResults" class="pagination">
+      <li ng-class="{disabled: currentPage == 1}">
+        <a href ng-click="prevPage()">« Prev</a>
+      </li>
+      <li ng-repeat="n in pages" ng-class="{active: n == currentPage}" ng-click="setPage()">
+        <a href page data-page-num="{{n}}">{{n}}</a>
+      </li>
+      <li ng-class="{disabled: currentPage == data.numPages}">
+        <a href ng-click="nextPage()">Next »</a>
+      </li>
+    </ul>
+  </div>
+</div>

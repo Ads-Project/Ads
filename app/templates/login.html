@@ -32,7 +32,7 @@
         <div class="form-group">
           <div class="col-lg-10 col-lg-offset-2">
             <button ng-click="cancel()" class="btn btn-default">Cancel</button>
-            <button ng-keyup="$event.keyCode == 13 ? login(credentials) : null" ng-disabled="loginForm.$invalid" type="submit" class="btn btn-primary">Submit</button>
+            <button ng-disabled="loginForm.$invalid" type="submit" class="btn btn-primary">Submit</button>
           </div>
         </div>
       </fieldset>

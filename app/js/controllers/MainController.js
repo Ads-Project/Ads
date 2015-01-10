@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('MainController', ['$scope', 'USER_ROLES', 'Auth', 'AUTH_EVENTS', 'toaster',
-	function($scope, USER_ROLES, Auth, AUTH_EVENTS, toaster) {
+app.controller('MainController', ['$scope', 'USER_ROLES', 'Auth', 'AUTH_EVENTS', 'toaster','$location', '$window', '$http',
+	function($scope, USER_ROLES, Auth, AUTH_EVENTS, toaster, $location, $window, $http) {
 
 		$scope.currentUser = Auth.getUserInfo();
 		$scope.userRoles = USER_ROLES;
@@ -38,7 +38,10 @@ app.controller('MainController', ['$scope', 'USER_ROLES', 'Auth', 'AUTH_EVENTS',
 		});
 
 		$scope.$on(AUTH_EVENTS.notAuthorized, function(event, err) {
-			toaster.pop('error', "Access dained!", 'Please login.', 5000);    
+			delete $scope.currentUser;
+			delete $window.sessionStorage["userInfo"];
+			delete $http.defaults.headers.common['Authorization'];  
+			toaster.pop('error', "Access dained!", 'Please login.', 5000);
 		});
 
 		

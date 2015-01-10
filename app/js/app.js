@@ -1,7 +1,7 @@
 'use strict';
 
 var app = angular
-    .module('app', ['ngRoute', 'ngResource', 'ngAnimate', 'ngSanitize', 'angular-loading-bar', 'toaster', 'duScroll', 'ui.bootstrap', 'flow'])
+    .module('app', ['ngRoute', 'ngResource', 'ngAnimate', 'ngSanitize', 'angular-loading-bar', 'toaster', 'duScroll', 'ui.bootstrap', 'ui.utils'])
     .constant('AUTH_EVENTS', {
         loginSuccess: 'auth-login-success',
         loginFailed: 'auth-login-failed',
@@ -39,7 +39,7 @@ var app = angular
                     auth: ["$q", "Auth", function($q, Auth) {
                         var userInfo = Auth.getUserInfo();
 
-                        if (userInfo) {
+                        if (userInfo && userInfo.role == 'user') {
                             return $q.when(userInfo);
                         } else {
                             return $q.reject({
@@ -56,7 +56,7 @@ var app = angular
                     auth: ["$q", "Auth", function($q, Auth) {
                         var userInfo = Auth.getUserInfo();
 
-                        if (userInfo) {
+                        if (userInfo && userInfo.role == 'user') {
                             return $q.when(userInfo);
                         } else {
                             return $q.reject({
@@ -73,7 +73,75 @@ var app = angular
                     auth: ["$q", "Auth", function($q, Auth) {
                         var userInfo = Auth.getUserInfo();
 
-                        if (userInfo) {
+                        if (userInfo && userInfo.role == 'user') {
+                            return $q.when(userInfo);
+                        } else {
+                            return $q.reject({
+                                authenticated: false
+                            });
+                        }
+                    }]
+                }
+            })
+            .when('/allAds', {
+                templateUrl: 'templates/admin/adminAds.html',
+                controller: 'AdminAdsController',
+                resolve: {
+                    auth: ["$q", "Auth", function($q, Auth) {
+                        var userInfo = Auth.getUserInfo();
+
+                        if (userInfo && userInfo.role == 'admin') {
+                            return $q.when(userInfo);
+                        } else {
+                            return $q.reject({
+                                authenticated: false
+                            });
+                        }
+                    }]
+                }
+            })
+            .when('/users', {
+                templateUrl: 'templates/admin/users.html',
+                controller: 'AdminUsersController',
+                resolve: {
+                    auth: ["$q", "Auth", function($q, Auth) {
+                        var userInfo = Auth.getUserInfo();
+
+                        if (userInfo && userInfo.role == 'admin') {
+                            return $q.when(userInfo);
+                        } else {
+                            return $q.reject({
+                                authenticated: false
+                            });
+                        }
+                    }]
+                }
+            })
+            .when('/categories', {
+                templateUrl: 'templates/admin/categories.html',
+                controller: 'AdminCategoriesController',
+                resolve: {
+                    auth: ["$q", "Auth", function($q, Auth) {
+                        var userInfo = Auth.getUserInfo();
+
+                        if (userInfo && userInfo.role == 'admin') {
+                            return $q.when(userInfo);
+                        } else {
+                            return $q.reject({
+                                authenticated: false
+                            });
+                        }
+                    }]
+                }
+            })
+            .when('/towns', {
+                templateUrl: 'templates/admin/towns.html',
+                controller: 'AdminTownsController',
+                resolve: {
+                    auth: ["$q", "Auth", function($q, Auth) {
+                        var userInfo = Auth.getUserInfo();
+
+                        if (userInfo && userInfo.role == 'admin') {
                             return $q.when(userInfo);
                         } else {
                             return $q.reject({
@@ -86,7 +154,7 @@ var app = angular
 
 
 
-        //.otherwise({redirectTo: '/home'});
+        .otherwise({redirectTo: '/'});
     })
     .run(["$rootScope", "$location", 'AUTH_EVENTS', function($rootScope, $location, AUTH_EVENTS) {
 

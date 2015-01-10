@@ -20,6 +20,15 @@ app.factory('AdsData', ['$http', '$resource', function($http, $resource) {
 			}
 		});
 
+	var adminResource = $resource(
+		'http://softuni-ads.azurewebsites.net/api/admin/ads/:id', {
+			id: '@id'
+		}, {
+			update: {
+				method: 'PUT'
+			}
+		});
+
 	function getAllAds() {
 		return resource.get();
 	}
@@ -28,75 +37,38 @@ app.factory('AdsData', ['$http', '$resource', function($http, $resource) {
 		return userResource.get();
 	}
 
-	function getFiltredAds(adFilters) {
+	function getAds(startPage, categoryId, townId) {
 
-		var res = $resource('http://softuni-ads.azurewebsites.net/api/user/ads/')
-
-		// Generate url filters
-		var filterUrl;
-		if (adFilters.role === 'guest') {
-			filterUrl = 'http://softuni-ads.azurewebsites.net/api/ads/?';
-
-			if (adFilters.categoryId || adFilters.townId || adFilters.pageNum) {
-
-				if (adFilters.categoryId) {
-					filterUrl += 'categoryid=' + adFilters.categoryId;
-
-					if (adFilters.townId) {
-						filterUrl += '&townid=' + adFilters.townId;
-
-						if (adFilters.pageNum) {
-							filterUrl += '&startPage=' + adFilters.pageNum;
-							return $resource(filterUrl).get();
-						}
-
-					} else if (adFilters.pageNum) {
-						filterUrl += '&startPage=' + adFilters.pageNum;
-						$resource(filterUrl).get();
-					}
-
-					return $resource(filterUrl).get();
-
-				} else if (adFilters.townId) {
-					filterUrl += 'townid=' + adFilters.townId;
-
-					if (adFilters.pageNum) {
-						filterUrl += '&startPage=' + adFilters.pageNum;
-						return $resource(filterUrl).get();
-					}
-
-					return $resource(filterUrl).get();
-
-				} else {
-					filterUrl += 'startPage=' + adFilters.pageNum;
-
-					return $resource(filterUrl).get();
+		return $resource(
+			'http://softuni-ads.azurewebsites.net/api/ads', {
+				startPage: '1',
+				categoryId: '@categoryId',
+				townId: '@townId'
+			}, {
+				update: {
+					method: 'PUT'
 				}
+			}).get({
+			startPage: startPage,
+			categoryId: categoryId,
+			townId: townId
+		});
+	}
 
-			} else {
-				return getAllAds();
-			}
-		} else {
-			filterUrl = 'http://softuni-ads.azurewebsites.net/api/user/ads/?'
+	function getAdsAsUser(startPage, statusId) {
 
-			if (adFilters.pageNum) {
-				filterUrl += 'startPage=' + adFilters.pageNum;
-
-				if (adFilters.status) {
-					filterUrl += '&Status=' + adFilters.status;
-					return $resource(filterUrl).get(); 
+		return $resource(
+			'http://softuni-ads.azurewebsites.net/api/user/ads', {
+				startPage: '1',
+				status: '@status'
+			}, {
+				update: {
+					method: 'PUT'
 				}
-
-				return $resource(filterUrl).get();
-			} else {
-				if (adFilters.status) {
-					filterUrl += 'Status=' + adFilters.status;
-					return $resource(filterUrl).get();
-				};
-				return getUserAds();
-			}
-		}
-
+			}).get({
+			startPage: startPage,
+			status: statusId
+		});
 	}
 
 	function createNewAd(ad) {
@@ -152,6 +124,73 @@ app.factory('AdsData', ['$http', '$resource', function($http, $resource) {
 		});
 	}
 
+	function getAdsAsAdmin(startPage, statusId, categoryId, townId) {
+		return $resource(
+			'http://softuni-ads.azurewebsites.net/api/admin/ads', {
+				startPage: '1',
+				status: '@status',
+				categoryId: '@categoryId',
+				townId: '@townId'
+			}, {
+				update: {
+					method: 'PUT'
+				}
+			}).get({
+			startPage: startPage,
+			status: statusId,
+			categoryId: categoryId,
+			townId: townId
+		});
+	}
+
+	function rejectAd(id) {
+		var rejectAdResource = $resource(
+			'http://softuni-ads.azurewebsites.net/api/admin/ads/reject/:id', {
+				id: '@id'
+			}, {
+				update: {
+					method: 'PUT'
+				}
+			});
+
+		return rejectAdResource.update({
+			id: id
+		});
+	}
+
+	function approveAd(id) {
+		var approveAdResource = $resource(
+			'http://softuni-ads.azurewebsites.net/api/admin/ads/approve/:id', {
+				id: '@id'
+			}, {
+				update: {
+					method: 'PUT'
+				}
+			});
+
+		return approveAdResource.update({
+			id: id
+		});
+	}
+
+	function getByIdAsAdmin(id) {
+		return adminResource.get({
+			id: id
+		});
+	}
+
+	function editAsAdmin(id, ad) {
+		return adminResource.update({
+			id: id
+		}, ad)
+	}
+
+	function deleteAdAsAdmin(id) {
+		return adminResource.delete({
+			id: id
+		});
+	}
+
 	return {
 		getAll: getAllAds,
 		create: createNewAd,
@@ -160,7 +199,14 @@ app.factory('AdsData', ['$http', '$resource', function($http, $resource) {
 		delete: deleteAd,
 		deactivate: deactivateAd,
 		publishAgain: publishAgainAd,
-		getAllByFilter: getFiltredAds
+		getAds: getAds,
+		getAdsAsUser: getAdsAsUser,
+		getAdsAsAdmin: getAdsAsAdmin,
+		reject: rejectAd,
+		approve: approveAd,
+		getByIdAsAdmin: getByIdAsAdmin,
+		editAsAdmin: editAsAdmin,
+		deleteAdAsAdmin: deleteAdAsAdmin
 	}
 
 

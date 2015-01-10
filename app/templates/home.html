@@ -68,7 +68,7 @@
         </p>
       </div>
     </div>
-    <ul ng-hide="noResults" class="pagination">
+    <ul ng-cloak ng-hide="noResults" class="pagination">
       <li ng-class="{disabled: currentPage == 1}">
         <a href ng-click="prevPage()">« Prev</a>
       </li>

@@ -1,0 +1,22 @@
+<div class="modal-header">
+  <button type="button" ng-click="cancel()" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  <h4 class="modal-title">Edit "{{category.username}}"</h4>
+</div>
+<div class="modal-body">
+  <form name="editCategory" class="form-horizontal row">
+    <div class="col-md-12">
+      <div class="form-group required" 
+          ng-class="{'has-error': editCategory.title.$dirty && editCategory.title.$invalid, 'has-success': editCategory.title.$dirty && editCategory.title.$valid}">
+        <label for="inputTitle" class="col-lg-2 control-label">Name</label>
+        <div class="col-lg-10">
+          <input type="text" name="title" ng-init="category.name = category.username" required ng-model="category.name" class="form-control" id="inputTitle">
+        </div>
+      </div>
+      
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" ng-click="cancel()" class="btn btn-default" data-dismiss="modal">Close</button>
+  <button type="button" ng-disabled="editCategory.$invalid" ng-click="edit(category)" class="btn btn-primary button-fix">Save changes</button>
+</div>

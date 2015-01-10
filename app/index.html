@@ -16,7 +16,7 @@
 <body ng-app="app" ng-controller="MainController">
   <toaster-container toaster-options="{'position-class': 'toast-top-center'}"></toaster-container>
 
-  <div ng-controller="NavController" class="navbar navbar-default navbar-fixed-top">
+  <div ng-controller="NavController" ng-cloak class="navbar navbar-default navbar-fixed-top col-xs-12 col-sm-12 col-md-12">
     <div class="container">
       <div class="navbar-header">
         <a href="#/" class="navbar-brand">Ads</a>
@@ -38,19 +38,25 @@
         </ul>
 
         <ul ng-if="currentUser && currentUser.role == 'admin' " class="nav navbar-nav">
-          <li ng-class="{active: activetab == '/myAds'}">
-            <a href="#/myAds">My ads</a>
+          <li ng-class="{active: activetab == '/allAds'}">
+            <a href="#/allAds"><i class="glyphicon glyphicon-th-list"></i> All ads</a>
           </li>
-          <li ng-class="{active: activetab == '/newAd'}">
-            <a href="#/newAd">Publish New Ad</a>
+          <li ng-class="{active: activetab == '/users'}">
+            <a href="#/users"><i class="glyphicon glyphicon-user"></i> Users</a>
+          </li>
+          <li ng-class="{active: activetab == '/categories'}">
+            <a href="#/categories"><i class="glyphicon glyphicon-file"></i> Categories</a>
+          </li>
+          <li ng-class="{active: activetab == '/towns'}">
+            <a href="#/towns"><i class="glyphicon glyphicon-home"></i> Towns</a>
           </li>
         </ul>
 
         <ul ng-if="!currentUser" class="nav navbar-nav navbar-right">
-          <li  ng-class="{active: activetab == '/login'}">
+          <li ng-class="{active: activetab == '/login'}">
             <a href="#/login">Login</a>
           </li>
-          <li  ng-class="{active: activetab == '/register'}">
+          <li ng-class="{active: activetab == '/register'}">
             <a href="#/register">Sign up</a>
           </li>
         </ul>
@@ -62,7 +68,7 @@
               <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
-              <li ng-class="{active: activetab == '/editProfile'}">
+              <li ng-if="currentUser.role !== 'admin' " ng-class="{active: activetab == '/editProfile'}">
                 <a href="#/editProfile">Edit Profile</a>
               </li>
               <li>
@@ -74,7 +80,7 @@
       </div>
     </div>
   </div>
-  
+
   <div class="container view-slide-in page-content" ng-view>
 
   </div>
@@ -102,7 +108,7 @@
   <script src="lib/AngularJS-Toaster-master/toaster.js"></script>
   <script src="lib/angular-scroll.js"></script>
   <script src="lib/ui-bootstrap-tpls-0.12.0.js"></script>
-  <script type="text/javascript" src="lib/ng-flow-2.4.0/dist/ng-flow-standalone.min.js"></script>
+  <script src="lib/ui-utils-0.1.1/ui-utils.js"></script>
 
   <!-- Modules -->
   <script type="text/javascript" src="js/app.js"></script>
@@ -118,12 +124,28 @@
   <script src="js/controllers/addNewAdController.js"></script>
   <script src="js/controllers/EditAdController.js"></script>
   <script src="js/controllers/EditProfileController.js"></script>
+  <script type="text/javascript" src="js/controllers/ConfirmDeleteAdController.js"></script>
+  <script src="js/controllers/admin/AdminAdsController.js"></script>
+  <script src="js/controllers/admin/EditAdAsAdminController.js"></script>
+  <script src="js/controllers/admin/ConfirmDeleteAdAsAdminController.js"></script>
+  <script src="js/controllers/admin/AdminUsersController.js"></script>
+  <script src="js/controllers/admin/EditUserAsAdminController.js"></script>
+  <script src="js/controllers/admin/ConfirmDeleteUserController.js"></script>
+  <script src="js/controllers/admin/AdminCategoriesController.js"></script>
+  <script type="text/javascript" src="js/controllers/admin/EditCategoryAsAdminController.js"></script>
+  <script src="js/controllers/admin/AddCategoryAsAdminController.js"></script>
+  <script src="js/controllers/admin/AdminTownsController.js"></script>
+  <script src="js/controllers/admin/EditTownAsAdminController.js"></script>
+  <script src="js/controllers/admin/AddTownAsAdminController.js"></script>
 
   <!-- Services -->
   <script type="text/javascript" src="js/services/AdsData.js"></script>
   <script type="text/javascript" src="js/services/categoriesAndTownsData.js"></script>
   <script type="text/javascript" src="js/services/Auth.js"></script>
   <script src="js/services/UserDataService.js"></script>
+  <script src="js/services/AdminUsersData.js"></script>
+  <script src="js/services/AdminCategoriesData.js"></script>
+  <script type="text/javascript" src="js/services/AdminTownsData.js"></script>
 
   <!-- Directives -->
   <script type="text/javascript" src="js/directives/category.js"></script>

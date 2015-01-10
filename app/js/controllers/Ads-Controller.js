@@ -1,24 +1,17 @@
 'use strict';
 
-app.controller('Ads-Controller', ['$scope', 'AdsData', 'toaster',
-	function($scope, AdsData, toaster) {
+app.controller('Ads-Controller', ['$scope', 'AdsData', 'toaster', '$document',
+	function($scope, AdsData, toaster, $document) {
 
-		var adFilters = {
-			role: 'guest'
-		};
+		var adFilters = {};
 
-		$scope.data = AdsData.getAll();
 		$scope.pages = [];
 		$scope.currentPage = 1;
+		$scope.prevPage = prevPage;
+		$scope.nextPage = nextPage;
 
-		// Fill pages array
-		$scope.data
-			.$promise
-			.then(function() {
-				for (var i = 1; i <= $scope.data.numPages; i++) {
-					$scope.pages.push(i);
-				};
-			});
+		// Initial Load Ads without filters
+		reloadAds();
 
 		$scope.$on("categorySelectorClicked", function(event, selectedCategoryId) {
 
@@ -28,7 +21,7 @@ app.controller('Ads-Controller', ['$scope', 'AdsData', 'toaster',
 			} else {
 				delete adFilters.categoryId;
 			}
-			
+
 			// Reset Page
 			delete adFilters.pageNum;
 			$scope.currentPage = 1;
@@ -63,7 +56,7 @@ app.controller('Ads-Controller', ['$scope', 'AdsData', 'toaster',
 
 
 		function reloadAds() {
-			AdsData.getAllByFilter(adFilters)
+			AdsData.getAds(adFilters.pageNum, adFilters.categoryId, adFilters.townId)
 				.$promise
 				.then(function(respData) {
 					$scope.data = respData;
@@ -88,6 +81,27 @@ app.controller('Ads-Controller', ['$scope', 'AdsData', 'toaster',
 					toaster.pop('error', err.data.error_description, 1500);
 				});
 		}
+
+
+		function nextPage() {
+			$document.scrollTopAnimated(0, 1000).then(function() {
+				if (!adFilters.pageNum) {
+					adFilters.pageNum = 1;
+				}
+				adFilters.pageNum++;
+				$scope.currentPage++;
+				reloadAds();
+			});
+		}
+
+		function prevPage() {
+			$document.scrollTopAnimated(0, 1000).then(function() {
+				adFilters.pageNum--;
+				$scope.currentPage--;
+				reloadAds();
+			});
+		}
+
 
 
 	}

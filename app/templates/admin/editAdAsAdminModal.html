@@ -25,6 +25,29 @@
         </div>
       </div>
       <div class="form-group">
+        <label for="inputUsername" class="col-lg-2 control-label">Username</label>
+        <div class="col-lg-6">
+            <input type="text" name="inputUsername" required ng-model="ad.ownerUsername" class="form-control" id="inputUsername">
+        </div>
+      </div>
+      <div class="form-group required">
+        <label for="inputDate" class="col-lg-2 control-label">Date</label>
+        <div class="col-lg-6">
+            <input type="datetime-local" required name="inputDate" required ng-model="ad.date" class="form-control" id="inputDate">
+        </div>
+      </div>
+      <div class="form-group required">
+        <label for="inputStatus" class="col-lg-2 control-label">Status</label>
+        <div class="col-lg-6">
+            <select class="form-control"  required ng-model="ad.status" id="inputStatus">
+            	<option ng-selected="ad.status == 'Inactive' " value="0">Inactive</option>
+            	<option ng-selected="ad.status == 'WaitingApproval' " value="1">WaitingApproval</option>
+            	<option ng-selected="ad.status == 'Published' " value="2">Published</option>
+            	<option ng-selected="ad.status == 'Rejected' " value="3">Rejected</option>
+          	</select>
+        </div>
+      </div>
+      <div class="form-group">
         <label for="inputCategory" class="col-lg-2 control-label">Category</label>
         <div class="col-lg-10">
           <select class="form-control" 
@@ -51,8 +74,8 @@
     </div>
     <div class="col-md-5">
       <div class="col-md-12 image-box">
-        <img ng-show="ad.imageDataUrl" class="responsive-image" ng-src="{{ad.imageDataUrl | adImage}}" src="" alt="">
-        <img ng-show="ad.imageDataURL" class="responsive-image" ng-src="{{ad.imageDataURL | adImage}}" src="" alt="">
+        <img ng-show="ad.imageDataUrl" class="responsive-image" ng-src="{{ad.imageDataUrl}}" src="" alt="">
+        <img ng-show="ad.imageDataURL" class="responsive-image" ng-src="{{ad.imageDataURL}}" src="" alt="">
         <img ng-show="!ad.imageDataUrl && !ad.imageDataURL" src="http://placehold.it/150x150&text=No%20Image" alt="">
       </div>
       <div ng-if="ad.imageDataUrl || ad.imageDataURL" class="col-md-12">

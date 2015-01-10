@@ -1,0 +1,47 @@
+<div>
+  <div class="btn-toolbar">
+    <button ng-click="openNewTownModal()" class="btn btn-primary">New Town</button>
+  </div>
+  <div class="row">
+    <div class="well col-md-offset-3 col-md-6">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th style="width: 36px;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="town in data.towns">
+            <td>{{town.id}}</td>
+            <td>{{town.username}}</td>
+            <td width="60px">
+              <a ng-click="openEditModal(town)" href>
+                <i class="glyphicon glyphicon-pencil"></i>
+              </a>
+              <a ng-click="openDeleteModal(town)" href>
+                <i class="glyphicon glyphicon-remove"></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="pagination">
+      <ul ng-hide="noResults" class="pagination">
+        <li ng-class="{disabled: currentPage == 1}">
+          <a href ng-click="prevPage()">« Prev</a>
+        </li>
+        <li ng-repeat="n in pages" ng-class="{active: n == currentPage}" ng-click="setPage()">
+          <a href page data-page-num="{{n}}">{{n}}</a>
+        </li>
+        <li ng-class="{disabled: currentPage == data.numPages}">
+          <a href ng-click="nextPage()">Next »</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,39 +1,21 @@
 'use strict';
 
-app.controller('UserAdsController', ['$scope', 'AdsData', 'toaster', '$modal', '$log', '$location',
+app.controller('UserAdsController', ['$scope', 'AdsData', 'toaster', '$modal', '$location', '$document',
 
-	function($scope, AdsData, toaster, $modal, $log, $location) {
+	function($scope, AdsData, toaster, $modal, $location, $document) {
 
-		var adFilters = {
-			role: 'user'
-		};
+		var adFilters = {};
 
 		$scope.pages = [];
 		$scope.currentPage = 1;
 		$scope.delete = deleteAd;
 		$scope.publishAgain = publishAgainAd;
 		$scope.deactivate = deactivateAd;
-		$scope.edit = editAd;
+		$scope.prevPage = prevPage;
+		$scope.nextPage = nextPage;
 
-		AdsData.getAllByFilter(adFilters)
-			.$promise
-			.then(function(data) {
-				$scope.data = data;
-
-				if (!$scope.data.ads.length) {
-					$scope.noResults = true;
-				} else {
-					$scope.noResults = false;
-				}
-
-				// Fill pages in array
-				for (var i = 1; i <= $scope.data.numPages; i++) {
-					$scope.pages.push(i);
-				};
-
-			}, function(err) {
-				toaster.pop('error', 'Error!', err.data.message);
-			});
+		// Initial Load Ads without filters
+		reloadAds();
 
 
 		$scope.$on("statusSelectorClicked", function(event, status) {
@@ -64,7 +46,7 @@ app.controller('UserAdsController', ['$scope', 'AdsData', 'toaster', '$modal', '
 
 
 		function reloadAds() {
-			AdsData.getAllByFilter(adFilters)
+			AdsData.getAdsAsUser(adFilters.pageNum, adFilters.status)
 				.$promise
 				.then(function(respData) {
 					$scope.data = respData;
@@ -88,6 +70,25 @@ app.controller('UserAdsController', ['$scope', 'AdsData', 'toaster', '$modal', '
 				}, function(err) {
 					toaster.pop('error', 'Error!', err.data.message, 1500);
 				});
+		}
+
+		function nextPage() {
+			$document.scrollTopAnimated(0, 1000).then(function() {
+				if (!adFilters.pageNum) {
+					adFilters.pageNum = 1;
+				}
+				adFilters.pageNum++;
+				$scope.currentPage++;
+				reloadAds();
+			});
+		}
+
+		function prevPage() {
+			$document.scrollTopAnimated(0, 1000).then(function() {
+				adFilters.pageNum--;
+				$scope.currentPage--;
+				reloadAds();
+			});
 		}
 
 		function deleteAd(adId) {
@@ -123,11 +124,7 @@ app.controller('UserAdsController', ['$scope', 'AdsData', 'toaster', '$modal', '
 				})
 		}
 
-		function editAd(argument) {
-			/* body... */
-		}
-
-		$scope.open = function(adId) {
+		$scope.openEditModal = function(adId) {
 
 			var modalInstance = $modal.open({
 				templateUrl: 'templates/editAdModal.html',
@@ -150,9 +147,32 @@ app.controller('UserAdsController', ['$scope', 'AdsData', 'toaster', '$modal', '
 					}, function(err) {
 						toaster.pop('error', 'Error!', err.data.message, 2000);
 					});
-				console.log(ad);
-			}, function() {
-				$log.info('Modal dismissed at: ' + new Date());
+			});
+		};
+
+		$scope.openDeleteModal = function(adId) {
+
+			var modalInstance = $modal.open({
+				templateUrl: 'templates/confirmDeleteAdModal.html',
+				size: 'lg',
+				controller: 'ConfirmDeleteAdController',
+				resolve: {
+					adId: function() {
+						return adId;
+					}
+				}
+			});
+
+
+			modalInstance.result.then(function(ad) {
+				AdsData.delete(ad.id)
+					.$promise
+					.then(function(resp) {
+						toaster.pop('success', 'Success!', resp.message, 2000);
+						reloadAds();
+					}, function(err) {
+						toaster.pop('error', 'Error!', err.data.message, 2000);
+					});
 			});
 		};
 

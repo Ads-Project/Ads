@@ -1,16 +1,13 @@
-app.controller('EditAdController', ['$scope', '$modalInstance', 'adId', 'AdsData', 'categoriesAndTownsData',
+app.controller('EditAdAsAdminController', ['$scope', '$modalInstance', 'adId', 'AdsData', 'categoriesAndTownsData',
 	function($scope, $modalInstance, adId, AdsData, categoriesAndTownsData) {
 
-		$scope.ad = AdsData.getById(adId);
+		$scope.ad = AdsData.getByIdAsAdmin(adId);
 		$scope.towns = categoriesAndTownsData.getAllTowns();
 		$scope.categories = categoriesAndTownsData.getAllCategories();
 
 		$scope.fileSelected = function(fileInputField) {
-			if ($scope.ad.imageDataURL) {
-				delete $scope.ad.imageDataURL;
-			} else {
-				delete $scope.ad.imageDataUrl;
-			}
+
+			delete $scope.ad.imageDataUrl;
 			var file = fileInputField.files[0];
 			if (file.type.match(/image\/.*/)) {
 				var reader = new FileReader();
@@ -41,5 +38,6 @@ app.controller('EditAdController', ['$scope', '$modalInstance', 'adId', 'AdsData
 		$scope.cancel = function() {
 			$modalInstance.dismiss('cancel');
 		};
+
 	}
-]);
+])
