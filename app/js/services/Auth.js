@@ -25,7 +25,7 @@ app.factory('Auth', ['$http', '$resource', '$location', '$rootScope', '$q', '$wi
 				.$promise
 				.then(function(resp) {
 					userInfo = {
-						accessToken: resp.token_type + ' ' + resp.access_token,
+						accessToken: 'Bearer ' + resp.access_token,
 						userName: resp.username,
 						role: resp.isAdmin ? 'admin' : 'user'
 					};
@@ -51,7 +51,7 @@ app.factory('Auth', ['$http', '$resource', '$location', '$rootScope', '$q', '$wi
 				.$promise
 				.then(function(resp) {
 					userInfo = {
-						accessToken: resp.token_type + ' ' + resp.access_token,
+						accessToken: 'Bearer ' + resp.access_token,
 						userName: resp.username,
 						role: resp.isAdmin ? 'admin' : 'user'
 					};
