@@ -1,14 +1,14 @@
 app.factory('UserDataService', ['$resource', function($resource) {
 
 	var userInfoResource = $resource(
-		'http://softuni-ads.azurewebsites.net/api/user/Profile', null, {
+		'http://online-listings.apphb.com/api/user/Profile', null, {
 			update: {
 				method: 'PUT'
 			}
 		});
 
 	var userPassResource = $resource(
-		'http://softuni-ads.azurewebsites.net/api/user/ChangePassword', null, {
+		'http://online-listings.apphb.com/api/user/ChangePassword', null, {
 			update: {
 				method: 'PUT'
 			}

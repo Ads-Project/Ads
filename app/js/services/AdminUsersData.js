@@ -1,7 +1,7 @@
 app.factory('AdminUsersData', ['$resource', function($resource) {
 
 	var usersResource = $resource(
-		'http://softuni-ads.azurewebsites.net/api/admin/users?StartPage=:page', {
+		'http://online-listings.apphb.com/api/admin/users?StartPage=:page', {
 			page: '1'
 		}, {
 			update: {
@@ -16,7 +16,7 @@ app.factory('AdminUsersData', ['$resource', function($resource) {
 	}
 
 	function editUser(username, user) {
-		return $resource('http://softuni-ads.azurewebsites.net/api/admin/user/:username', {
+		return $resource('http://online-listings.apphb.com/api/admin/user/:username', {
 			username: username
 		}, {
 			update: {
@@ -28,7 +28,7 @@ app.factory('AdminUsersData', ['$resource', function($resource) {
 	}
 
 	function changeUserPassword(userData) {
-		return $resource('http://softuni-ads.azurewebsites.net/api/admin/setPassword', null, {
+		return $resource('http://online-listings.apphb.com/api/admin/setPassword', null, {
 			update: {
 				method: 'PUT'
 			}
@@ -36,7 +36,7 @@ app.factory('AdminUsersData', ['$resource', function($resource) {
 	}
 
 	function deleteUser(username) {
-		return $resource('http://softuni-ads.azurewebsites.net/api/admin/user/:username', {
+		return $resource('http://online-listings.apphb.com/api/admin/user/:username', {
 			username: username
 		}).delete({
 			username: username

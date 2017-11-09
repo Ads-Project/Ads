@@ -3,7 +3,7 @@ app.factory('AdminTownsData', ['$resource',
 
 		function getTowns(page) {
 			return $resource(
-				'http://softuni-ads.azurewebsites.net/api/admin/towns?startPage=:page', {
+				'http://online-listings.apphb.com/api/admin/towns?startPage=:page', {
 					page: '1'
 				}).get({
 				page: page
@@ -12,7 +12,7 @@ app.factory('AdminTownsData', ['$resource',
 
 		function editTown(townId, town) {
 			return $resource(
-				'http://softuni-ads.azurewebsites.net/api/admin/towns/:id', {
+				'http://online-listings.apphb.com/api/admin/towns/:id', {
 					id: '@id'
 				}, {
 					update: {
@@ -25,7 +25,7 @@ app.factory('AdminTownsData', ['$resource',
 
 		function deleteTown(townId) {
 			return $resource(
-				'http://softuni-ads.azurewebsites.net/api/admin/towns/:id', {
+				'http://online-listings.apphb.com/api/admin/towns/:id', {
 					id: '@id'
 				}).delete({
 				id: townId
@@ -34,7 +34,7 @@ app.factory('AdminTownsData', ['$resource',
 
 		function addTown(town) {
 			return $resource(
-				'http://softuni-ads.azurewebsites.net/api/admin/towns'
+				'http://online-listings.apphb.com/api/admin/towns'
 			).save(town);
 		}
 

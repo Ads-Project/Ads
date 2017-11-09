@@ -3,7 +3,7 @@
 app.factory('AdsData', ['$http', '$resource', function($http, $resource) {
 
 	var resource = $resource(
-		'http://softuni-ads.azurewebsites.net/api/ads/:id', {
+		'http://online-listings.apphb.com/api/ads/:id', {
 			id: '@id'
 		}, {
 			update: {
@@ -12,7 +12,7 @@ app.factory('AdsData', ['$http', '$resource', function($http, $resource) {
 		});
 
 	var userResource = $resource(
-		'http://softuni-ads.azurewebsites.net/api/user/ads/:id', {
+		'http://online-listings.apphb.com/api/user/ads/:id', {
 			id: '@id'
 		}, {
 			update: {
@@ -21,7 +21,7 @@ app.factory('AdsData', ['$http', '$resource', function($http, $resource) {
 		});
 
 	var adminResource = $resource(
-		'http://softuni-ads.azurewebsites.net/api/admin/ads/:id', {
+		'http://online-listings.apphb.com/api/admin/ads/:id', {
 			id: '@id'
 		}, {
 			update: {
@@ -40,7 +40,7 @@ app.factory('AdsData', ['$http', '$resource', function($http, $resource) {
 	function getAds(startPage, categoryId, townId) {
 
 		return $resource(
-			'http://softuni-ads.azurewebsites.net/api/ads', {
+			'http://online-listings.apphb.com/api/ads', {
 				startPage: '1',
 				categoryId: '@categoryId',
 				townId: '@townId'
@@ -58,7 +58,7 @@ app.factory('AdsData', ['$http', '$resource', function($http, $resource) {
 	function getAdsAsUser(startPage, statusId) {
 
 		return $resource(
-			'http://softuni-ads.azurewebsites.net/api/user/ads', {
+			'http://online-listings.apphb.com/api/user/ads', {
 				startPage: '1',
 				status: '@status'
 			}, {
@@ -96,7 +96,7 @@ app.factory('AdsData', ['$http', '$resource', function($http, $resource) {
 
 	function deactivateAd(id) {
 		var deactivateResource = $resource(
-			'http://softuni-ads.azurewebsites.net/api/user/ads/deactivate/:id', {
+			'http://online-listings.apphb.com/api/user/ads/deactivate/:id', {
 				id: '@id'
 			}, {
 				update: {
@@ -111,7 +111,7 @@ app.factory('AdsData', ['$http', '$resource', function($http, $resource) {
 
 	function publishAgainAd(id) {
 		var publishAgainResource = $resource(
-			'http://softuni-ads.azurewebsites.net/api/user/ads/publishagain/:id', {
+			'http://online-listings.apphb.com/api/user/ads/publishagain/:id', {
 				id: '@id'
 			}, {
 				update: {
@@ -126,7 +126,7 @@ app.factory('AdsData', ['$http', '$resource', function($http, $resource) {
 
 	function getAdsAsAdmin(startPage, statusId, categoryId, townId) {
 		return $resource(
-			'http://softuni-ads.azurewebsites.net/api/admin/ads', {
+			'http://online-listings.apphb.com/api/admin/ads', {
 				startPage: '1',
 				status: '@status',
 				categoryId: '@categoryId',
@@ -145,7 +145,7 @@ app.factory('AdsData', ['$http', '$resource', function($http, $resource) {
 
 	function rejectAd(id) {
 		var rejectAdResource = $resource(
-			'http://softuni-ads.azurewebsites.net/api/admin/ads/reject/:id', {
+			'http://online-listings.apphb.com/api/admin/ads/reject/:id', {
 				id: '@id'
 			}, {
 				update: {
@@ -160,7 +160,7 @@ app.factory('AdsData', ['$http', '$resource', function($http, $resource) {
 
 	function approveAd(id) {
 		var approveAdResource = $resource(
-			'http://softuni-ads.azurewebsites.net/api/admin/ads/approve/:id', {
+			'http://online-listings.apphb.com/api/admin/ads/approve/:id', {
 				id: '@id'
 			}, {
 				update: {

@@ -4,7 +4,7 @@ app.factory('AdminCategoriesData', ['$resource',
 
 		function getCategories(page) {
 			return $resource(
-				'http://softuni-ads.azurewebsites.net/api/admin/categories?startPage=:page', {
+				'http://online-listings.apphb.com/api/admin/categories?startPage=:page', {
 					page: '1'
 				}, {
 					update: {
@@ -17,7 +17,7 @@ app.factory('AdminCategoriesData', ['$resource',
 
 		function editCategory(categoryId, category) {
 			return $resource(
-				'http://softuni-ads.azurewebsites.net/api/admin/categories/:id', {
+				'http://online-listings.apphb.com/api/admin/categories/:id', {
 					id: '@id'
 				}, {
 					update: {
@@ -30,7 +30,7 @@ app.factory('AdminCategoriesData', ['$resource',
 
 		function deleteCategory(categoryId) {
 			return $resource(
-				'http://softuni-ads.azurewebsites.net/api/admin/categories/:id', {
+				'http://online-listings.apphb.com/api/admin/categories/:id', {
 					id: '@id'
 				}).delete({
 				id: categoryId
@@ -39,7 +39,7 @@ app.factory('AdminCategoriesData', ['$resource',
 
 		function addCategory(category) {
 			return $resource(
-				'http://softuni-ads.azurewebsites.net/api/admin/categories'
+				'http://online-listings.apphb.com/api/admin/categories'
 			).save(category);
 		}
 

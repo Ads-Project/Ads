@@ -8,11 +8,11 @@ app.factory('Auth', ['$http', '$resource', '$location', '$rootScope', '$q', '$wi
 			registerResource;
 
 		loginResource = $resource(
-			'http://softuni-ads.azurewebsites.net/api/user/login'
+			'http://online-listings.apphb.com/api/user/login'
 		);
 
 		registerResource = $resource(
-			'http://softuni-ads.azurewebsites.net/api/user/register'
+			'http://online-listings.apphb.com/api/user/register'
 		);
 
 		init();
